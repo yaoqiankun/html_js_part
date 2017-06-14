@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+ <link rel="stylesheet" href="reset.css">
+ <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+ <style type="text/css">
+ 	body{
+ 		background-color: #ededed;
+ 	}
+ 	  tr{cursor: pointer;}
+ </style>
+</head>
+<body>
+<div id="quan">
+	<div class="container" style="background-color: white">
+		<div class="card-box">
+			 <div class="row">
+			 	<div style="padding-left: 20px;font-size: 24px;background-color: #c2c2c2;height: 35px">查询数据</div>
+		    	<table class="table table-bordered" id="table_top">
+				    <thead>
+				     	<tr>
+				     	    <th>选择</th>
+				     		<th class="index">ID</th>
+				     		<th>name</th>
+				     		<th>age</th>
+				     	</tr>
+				    </thead>
+				    <tbody class="tbody_one queue" id="tbody_one">
+					    <tr class="tr_noe ">
+					        <td>
+								<input type="checkbox" name="tr_one_checkbox"  value="false"> 
+					        </td>
+							<td class="index" >0</td>
+							<td >wo</td>
+							<td>12</td>
+					    </tr>
+					    <tr class="tr_noe">
+					       	<td>
+								<input type="checkbox" name="tr_one_checkbox"  value="false"> 
+					        </td>
+							<td class="index">1</td>
+							<td>wo</td>
+							<td>12</td>
+					    </tr>
+				    </tbody>
+	            </table>
+		    </div>
+		</div>	    
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="container" >
+			<div class="col-lg-6" style="text-align: center;">
+			 	<button class="btn btn-primary" id="top_move">上移</button>
+			</div>
+			<div class="col-lg-6" style="text-align: center;">
+			 	<button class="btn btn-primary" id="bottom_move">下移</button>
+			</div>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="container" style="background-color: white">
+	 	<div class="card-box">
+			 <div class="row">
+			 	<div style="padding-left: 20px;font-size: 24px;background-color: #c2c2c2;height: 35px">查询数据</div>
+		    	<table class="table table-bordered" id="table_bottom">
+				    <thead>
+				     	<tr>
+				     	    <th>选择</th>
+				     		<th class="index">ID</th>
+				     		<th>name</th>
+				     		<th>age</th>
+				     	</tr>
+				    </thead>
+				    <tbody class="tbody_two queue" id="tbody_two">
+					    <tr class="tr_two"> 
+					        <td>
+								<input type="checkbox" name="tr_two_checkbox" value="false" > 
+					        </td>
+							<td class="index">0</td>
+							<td>wo</td>
+							<td>12</td>
+					    </tr>
+					    <tr class="tr_two">
+					        <td> 
+					             <input type="checkbox" name="tr_two_checkbox"  value="false"  >
+					        </td>
+							<td class="index">1</td>
+							<td>wo</td>
+							<td>12</td>
+					    </tr>
+					    <tr class="tr_two ">
+					        <td> 
+					             <input type="checkbox" name="tr_two_checkbox"  value="false"  >
+					        </td>
+							<td class="index" >1</td>
+							<td >wo</td>
+							<td >12</td>
+					    </tr>
+					    <tr class="tr_two">
+					        <td> 
+					             <input type="checkbox" name="tr_two_checkbox"  value="false"  >
+					        </td>
+							<td class="index">1</td>
+							<td>wo</td>
+							<td>12</td>
+					    </tr>
+					    <tr class="tr_two">
+					        <td> 
+					             <input type="checkbox" name="tr_two_checkbox"  value="false"  >
+					        </td>
+							<td class="index">1</td>
+							<td>wo</td>
+							<td>12</td>
+					    </tr>
+				    </tbody>
+                </table>
+		    </div>
+		</div>	    
+	</div>
+</div>
+
+</body>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script type="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(function(){
+
+        //点击复选框改变value值  true或flase
+       $(document).on('click',"input[name='tr_two_checkbox']",function(){
+    		 if ( $(this).attr('value')=='false') {
+           	  	$(this).attr('value','true');
+           } else if ($(this).attr('value')=='true') {
+           	    $(this).attr('value','false');
+           }
+    	})
+
+        
+        $(document).on('click',"input[name='tr_one_checkbox']",function(){
+            if( $(this).attr('value')=='false'){
+           	  $(this).attr('value','true');
+            }else if($(this).attr('value')=='true'){
+           	    $(this).attr('value','false');
+            }
+         })
+
+      	// 点击上移按钮 移动数据
+         $("#top_move").on('click',function(){
+            var lengths= $("input[name='tr_two_checkbox']").length;
+            for(var i=0;i<lengths;i++){
+            	if($("input[name='tr_two_checkbox']").eq(i).attr('value')=='true'){
+            		var html_move = $("<tr class='tr_noe'></tr>").html($("input[name='tr_two_checkbox']").eq(i).parent().parent().html()); //获取要移动tr的副本
+	                $("input[name='tr_two_checkbox']").eq(i).parent().parent().attr('class','tr_noe')//移动后，需要删除的原本
+	               	$(html_move).find("input[name='tr_two_checkbox']").attr("name","tr_one_checkbox");
+	               	$(html_move).find("input[name='tr_one_checkbox']").attr("value","false");
+
+					$("#tbody_one").append(html_move);
+            	}
+            }
+
+            $('#table_bottom .tr_noe').remove();
+        });
+
+         // 点击下移按钮 移动数据
+        $("#bottom_move").on('click',function(){
+ 	        var lengthw= $("input[name='tr_one_checkbox']").length;
+            for(var i=0;i<lengthw;i++){
+            	if($("input[name='tr_one_checkbox']").eq(i).attr('value')=='true'){
+            		var html_move = $("<tr class='tr_two'></tr>").html($("input[name='tr_one_checkbox']").eq(i).parent().parent().html()); //获取要移动tr的副本
+	                $("input[name='tr_one_checkbox']").eq(i).parent().parent().attr('class','tr_two')//移动后，需要删除的原本
+	               	$(html_move).find("input[name='tr_one_checkbox']").attr("name","tr_two_checkbox");
+	               	$(html_move).find("input[name='tr_two_checkbox']").attr("value","false");
+
+
+					$("#tbody_two").append(html_move);
+            	}
+            }
+
+            $('#table_top .tr_two').remove();
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var fixHelperModified = function(e, tr) {
+			var $originals = tr.children();
+            var $helper = tr.clone();
+
+            $helper.children().each(function(index) {
+                $(this).width($originals.eq(index).width())
+            });
+            	return $helper;
+        	},
+            updateIndex = function(e, ui) {
+                $('td.index', ui.item.parent()).each(function (i) {
+                });
+            };
+        $("tbody").sortable({
+            helper: fixHelperModified,
+            stop: updateIndex
+        }).disableSelection();
+    });
+</script>
+
+<script type="text/javascript">
+	$(function() {
+    	$( "#table_bottom").accordion();
+	    $( "#table_bottom tr_two" ).draggable({
+	     	appendTo: "body",
+	    	helper: "original"
+	    });
+
+	    $( "#table_top" ).droppable({
+	     	accept: ":not(.ui-sortable-helper)",
+	      	drop: function( event, ui ) {
+	      		var html_move = $("<tr class='tr_noe'></tr>").html(ui.draggable.html());
+	      		$(html_move).find("input[name='tr_two_checkbox']").attr("name","tr_one_checkbox");
+               	$(html_move).find("input[name='tr_one_checkbox']").attr("value","false");
+	      		$(html_move).appendTo(this);
+	      		ui.draggable.remove();
+        	}
+	    })
+	});
+</script>
+
+<script type="text/javascript">
+	$(function() {
+    	$( "#table_top").accordion();
+	    $( "#table_top tr_noe" ).draggable({
+	     	appendTo: "body",
+	    	helper: "original"
+	    });
+
+	    $( "#table_bottom" ).droppable({
+	     	accept: ":not(.ui-sortable-helper)",
+	      	drop: function( event, ui ) {
+	      		var html_move = $("<tr class='tr_two'></tr>").html(ui.draggable.html());
+	      		$(html_move).find("input[name='tr_one_checkbox']").attr("name","tr_two_checkbox");
+	            $(html_move).find("input[name='tr_two_checkbox']").attr("value","false");
+	      		$(html_move).appendTo(this);
+	      		ui.draggable.remove();
+        	}
+	    })
+	});
+</script>
+</html>
